@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: devOpsWithSpring
+  config:
+    import: application-db.yml
