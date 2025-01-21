@@ -4,10 +4,10 @@ services:
     image: mariadb:11.6     # mariadb version
     container_name: mariadb     # container name
     ports:
-      - "3306:3306"     # Map port 3306 on the host to port 3306 in the container
+      - "${DB_PORT}:${DB_PORT}"     # Map port 3306 on the host to port 3306 in the container
     environment:      # Set environment variables for the mariadb container
-      - MYSQL_ROOT_PASSWORD=1234      # Password for the root user
-      - MYSQL_DATABASE=devOpsWithSpring      # Name of the created database
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}      # Password for the root user
+      - MYSQL_DATABASE=${DB_NAME}      # Name of the created database
     volumes:
       - db-data:/var/lib/mysql      # Persist database data in the docker volume
 
@@ -18,11 +18,11 @@ services:
       platforms:
         - linux/amd64
     ports:
-      - "8080:8080"     # Map port 8080 on the host to port 8080 in the container
+      - "${APP_PORT}:${APP_PORT}"     # Map port 8080 on the host to port 8080 in the container
     environment:      # Set environment variables for the server container
-      - SPRING_DATASOURCE_URL=jdbc:mariadb://db:3306/devOpsWithSpring     # Database connection URL; "db" refers to the db service name
-      - SPRING_DATASOURCE_USERNAME=root     # Username for the database connection
-      - SPRING_DATASOURCE_PASSWORD=1234     # Password for the database connection
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://db:${DB_PORT}/${DB_NAME}     # Database connection URL; "db" refers to the db service name
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}     # Username for the database connection
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}     # Password for the database connection
     depends_on:
       - db      # Ensure the server container starts before this service container
 
