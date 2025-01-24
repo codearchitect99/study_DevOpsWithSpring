@@ -1,6 +1,5 @@
 package codearchitect99.devOpsWithSpring;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +29,8 @@ public class CommentController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Comment> updateComment(@PathVariable("id") Long id, @RequestBody String udpateText) {
-        Comment updateComment = commentService.updateComment(id, udpateText);
+    public ResponseEntity<Comment> updateComment(@PathVariable("id") Long id, @RequestBody String updateText) {
+        Comment updateComment = commentService.updateComment(id, updateText);
         return ResponseEntity.ok().body(updateComment);
     }
 
