@@ -15,9 +15,6 @@ import java.util.List;
 @Configuration
 public class CorsConfig {
 
-    @Value("${app.url-base}")
-    private String urlBase;
-
     @Value("${app.cors.allowed-origins}")
     private List<String> allowedOrigins;
 
@@ -43,7 +40,7 @@ public class CorsConfig {
         configuration.setAllowCredentials(true); // Allow credentials for CORS requests
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration(urlBase + "/**", configuration); // Apply CORS settings to all routes
+        source.registerCorsConfiguration("/**", configuration); // Apply CORS settings to all routes
 
         return source;
     }
