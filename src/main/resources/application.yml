@@ -24,5 +24,4 @@ spring:
 
 app:
   cors:
-    allowed-origins:
-      ${CLIENT_URL}
+    allowed-origins: ${CLIENT_URL}
