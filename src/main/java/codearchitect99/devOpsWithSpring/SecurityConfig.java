@@ -6,6 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -36,8 +40,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .cors(httpSecurityCorsConfigurer ->
-                        httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()));
+            .httpBasic(HttpBasicConfigurer::disable)
+            .formLogin(FormLoginConfigurer::disable)
+            .csrf(CsrfConfigurer::disable)
+            .sessionManagement(httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        httpSecurity
+            .cors(httpSecurityCorsConfigurer ->
+                    httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()));
+
+        httpSecurity
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests.requestMatchers("/**").permitAll());
+
         return httpSecurity.build();
     }
 
