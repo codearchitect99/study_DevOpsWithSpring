@@ -12,6 +12,8 @@ services:
       - db-data:/var/lib/mysql      # Persist database data in the docker volume
 
   server:     # Define the server container
+    env_file:
+      - .env      # Load a environment file
     build:      # Configuration to build the docker image for the web application service
       context: .     # Path to the directory containing DockerFile
       dockerfile: Dockerfile      # Name of the Dockerfile
